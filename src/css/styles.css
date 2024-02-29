@@ -72,3 +72,12 @@ body {
   .login-input:focus {
     outline: 2px solid #FAC000;
   }
+
+
+
+
+
+
+  .hidden {
+    display: none !important;
+  }
