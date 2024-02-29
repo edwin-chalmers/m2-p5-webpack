@@ -7,6 +7,7 @@ import './css/styles.css';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import {} from './domUpdates'
+import {fetchData} from './apiCalls'
 
 
 var username = document.getElementById('username')
@@ -14,10 +15,10 @@ var password = document.getElementById('pass')
 var login = document.getElementById('login')
 
 login.addEventListener("click", () => {
-    // var username = document.getElementById('username').value;
-    // var password = document.getElementById('pass').value;
     console.log(username.value)
     console.log(password.value)
+    getTrips('trips', parseUserId(username.value))
+
     username.value = ''
     password.value = ''
 })
@@ -30,3 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
 function parseUserId(username) {
     return Number(username.replace('traveler', ''))
 }
+
+function sortDataById(data, userId) {
+    return data[0].trips.filter(data => data.userID === userId)
+}
+
+function getTrips(data, userId) {
+    Promise.all([fetchData(`${data}`)])
+    .then(trips => {
+        console.log('getTrips()', sortDataById(trips, userId))
+        sortDataById(trips, userId)
+    })
+    .catch(error => console.error("Error loading data:", error));
+}
+
