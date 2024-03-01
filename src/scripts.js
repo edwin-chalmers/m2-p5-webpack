@@ -6,17 +6,22 @@ import './css/styles.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
-// **** // import {displayPastTrips, displayFinalCost} from './domUpdates'
+import {displayPastTrips, displayFinalCost} from './domUpdates'
 import {fetchData} from './apiCalls'
 
 var username = document.getElementById('username')
 var password = document.getElementById('pass')
 var login = document.getElementById('login')
 const loginBox = document.getElementById('loginBox')
-const pastTripsDiv = document.getElementById('pastTrips')
-const finalCostDiv = document.getElementById('finalCost')
+const pastButton = document.getElementById('pastButton')
+const pendingButton = document.getElementById('pendingButton')
 
-// ------- Login ------- //
+// ------- event listeners ------- //
+
+document.addEventListener("DOMContentLoaded", () => {
+    username.value = ''
+    password.value = ''
+})
 
 login.addEventListener("click", () => {
     console.log(username.value)
@@ -28,10 +33,16 @@ login.addEventListener("click", () => {
     password.value = ''
 })
 
-document.addEventListener("DOMContentLoaded", () => {
-    username.value = ''
-    password.value = ''
+pastButton.addEventListener("click", () => {
+    pastButton.classList.add('selected-button')
+    pendingButton.classList.remove('selected-button')
 })
+
+pendingButton.addEventListener("click", () => {
+    pendingButton.classList.add('selected-button')
+    pastButton.classList.remove('selected-button')
+})
+
 
 function parseUserId(username) {
     return Number(username.replace('traveler', ''))
@@ -84,9 +95,9 @@ function getTripsThisYear(tripList) {
     return tripsThisYear
 }
 
-function getFinalCost(data, destIds) {
+function getFinalCost(data, tripsThisYear) {
     let finalCost = 0
-    destIds.forEach(id => {
+    tripsThisYear.forEach(id => {
         data.destinations.forEach(dest => {
             if (dest.id === id.destinationID) {
                 let tripTotal = ((id.travelers) + dest.estimatedLodgingCostPerDay) * 1.1
@@ -97,14 +108,8 @@ function getFinalCost(data, destIds) {
     return finalCost.toFixed(2)
 }
 
-function displayPastTrips(tripDates, tripLocations) {
-    tripDates.forEach((date, i) => {
-        pastTripsDiv.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} // ${date}</p>`
-    })
-}
+// ------- dom updates ------- //
 
-function displayFinalCost(finalCost) {    
-    finalCostDiv.innerText = `$${finalCost}` 
-}
+
 
 getTripData(parseUserId('40'))
