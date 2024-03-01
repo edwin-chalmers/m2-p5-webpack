@@ -81,14 +81,13 @@ body {
 
   h2 {
     font-weight: 900;
-    margin-bottom: 5px;
     color: white;
+    margin-bottom: 5px;
   }
 
   button {
     border: 1px solid white;
     font-size: large;
-    font-weight: 700;
     color: white;
     background-color: rgba(4,128,150,0.8);
     width: 50px;
@@ -122,8 +121,15 @@ body {
 
   h3 {
     font-weight: 900;
-    margin-bottom: 0;
     color: white;
+    margin-bottom: 0;
+  }
+
+  h1 {
+    font-size: xx-large;
+    font-weight: 900;
+    color: white;
+    margin-top: 0;
   }
 }
 
