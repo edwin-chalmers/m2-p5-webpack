@@ -1,0 +1,9 @@
+$main-color: #048096;
+$accent-color: #FAC000;
+$black-text: rgb(34, 34, 34);
+@mixin flex-center{
+    display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
