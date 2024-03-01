@@ -6,7 +6,7 @@ import './css/styles.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
-import {displayPastTrips} from './domUpdates'
+// import {displayPastTrips} from './domUpdates'
 import {fetchData} from './apiCalls'
 
 var username = document.getElementById('username')
@@ -20,7 +20,8 @@ const pastTrips = document.getElementById('pastTrips')
 login.addEventListener("click", () => {
     console.log(username.value)
     console.log(password.value)
-    getTrips('trips', parseUserId(username.value))
+    // getTrips('trips', parseUserId(username.value))
+    getTripData(parseUserId(username.value))
     loginBox.classList.add('hidden')
     username.value = ''
     password.value = ''
@@ -36,19 +37,65 @@ function parseUserId(username) {
 }
 
 function sortDataById(data, userId) {
-    return data[0].trips.filter(data => data.userID === userId)
+    return data.trips.filter(data => data.userID === userId)
 }
 
-function getTrips(data, userId) {
-    Promise.all([fetchData(`${data}`)])
-    .then(trips => {
-        let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
-        console.log('getTrips()', sortDataById(trips, userId))
-        displayPastTrips(chronologicalDates)
-        sortDataById(trips, userId)
+// function getTrips(data, userId) {
+//     Promise.all([fetchData(`${data}`)])
+//     .then(trips => {
+//         // --- past trips 
+//         let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
+//         sortDataById(trips, userId)
+        
+//         // --- dom updates
+//         displayPastTrips(chronologicalDates)
+        
 
+
+//         console.log('getTrips()', sortDataById(trips, userId))
+//         console.log('final cost',sortDataById(trips, userId))
+//     })
+//     .catch(error => console.error("Error loading data:", error));
+// }
+
+function getTripData(userId) {
+    Promise.all([fetchData('trips'), fetchData('destinations')])
+    .then(([trips, destinations]) => {
+        // --- past trips 
+        let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
+        let tripList = sortDataById(trips, userId)
+        let tripLocations = getDestinationsByIds(destinations, tripList)
+        
+        // --- dom updates
+        displayPastTrips(chronologicalDates, tripLocations)
+        
+        
+        console.log('destinations',destinations.destinations)
+        console.log('sortDataById()', sortDataById(trips, userId))
+        console.log('getDestinationsByIds', getDestinationsByIds(destinations, tripList))
+        // console.log('final cost',sortDataById(trips, userId))
     })
     .catch(error => console.error("Error loading data:", error));
 }
 
-console.log('getTrips', getTrips('trips', parseUserId('23')))
+function getDestinationsByIds(data, destIds) {
+    let destArray = []
+    destIds.forEach(id => {
+        data.destinations.forEach(dest => {
+         if (dest.id === id.destinationID) {
+            destArray.push(dest)
+         }
+        })
+    })
+    return destArray
+}
+
+
+
+function displayPastTrips(tripDates, tripLocations) {
+    tripDates.forEach((date, i) => {
+        pastTrips.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} - ${date}</p>`
+    })
+}
+
+getTripData(parseUserId('27'))
