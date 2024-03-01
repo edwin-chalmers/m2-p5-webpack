@@ -6,13 +6,14 @@ import './css/styles.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
-import {} from './domUpdates'
+import {displayPastTrips} from './domUpdates'
 import {fetchData} from './apiCalls'
 
 var username = document.getElementById('username')
 var password = document.getElementById('pass')
 var login = document.getElementById('login')
 const loginBox = document.getElementById('loginBox')
+const pastTrips = document.getElementById('pastTrips')
 
 // ------- Login ------- //
 
@@ -41,9 +42,11 @@ function sortDataById(data, userId) {
 function getTrips(data, userId) {
     Promise.all([fetchData(`${data}`)])
     .then(trips => {
+        let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
         console.log('getTrips()', sortDataById(trips, userId))
-        console.log('getdates', sortDataById(trips, userId).map(trip => trip.date))
+        displayPastTrips(chronologicalDates)
         sortDataById(trips, userId)
+
     })
     .catch(error => console.error("Error loading data:", error));
 }
