@@ -13,7 +13,9 @@ import {
     pendingTrips,
     upcomingTrips,
     addTrips,
-    changePageTitle
+    changePageTitle,
+    addDefaultButtonStyling,
+    hideTripsDiv
 } from './domUpdates'
 import {fetchData} from './apiCalls'
 
@@ -46,31 +48,7 @@ login.addEventListener("click", () => {
     password.value = ''
 })
 
-// navButtons.addEventListener("click", (e) => {
-//     navButtons.classList.remove('selected-button')
-//     const button = e.target.closest('.butt');
-//     if (button) {
-//         document.querySelectorAll('.nav-buttons .butt').forEach(butt => {
-//         butt.classList.remove('selected-button');
-//         });
-    
-//     button.classList.add('selected-button');
-//       }
-// })
-
 // ----- button transitions -----
-
-function addDefaultButtonStyling() {
-    document.querySelectorAll('.nav-buttons .butt').forEach(butt => {
-        butt.classList.remove('selected-button');
-    });
-}
-
-function hideTripsDiv() {
-    document.querySelectorAll('.dashboard .trips').forEach(dashboard => {
-        dashboard.classList.add('hidden');
-    });
-}
 
 pastButton.addEventListener("click", () => {
     addDefaultButtonStyling()
@@ -104,8 +82,7 @@ addButton.addEventListener("click", () => {
     addTrips.classList.remove('hidden')
 })
 
-
-// ----- populate page -----
+// ----- login -----
 
 function parseUserId(username) {
     return Number(username.replace('traveler', ''))
@@ -114,6 +91,8 @@ function parseUserId(username) {
 function sortDataById(data, userId) {
     return data.trips.filter(data => data.userID === userId)
 }
+
+// ----- populate page -----
 
 function getTripData(userId) {
     Promise.all([fetchData('trips'), fetchData('destinations')])
