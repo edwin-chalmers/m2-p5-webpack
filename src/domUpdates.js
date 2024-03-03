@@ -18,13 +18,27 @@ function changePageTitle(page) {
     dashTitle.innerText = `//${page} trips//`
 }
 
+function addDefaultButtonStyling() {
+    document.querySelectorAll('.nav-buttons .butt').forEach(butt => {
+        butt.classList.remove('selected-button');
+    });
+}
+
+function hideTripsDiv() {
+    document.querySelectorAll('.dashboard .trips').forEach(dashboard => {
+        dashboard.classList.add('hidden');
+    });
+}
+
 
 export {
-    displayPastTrips,
-    displayFinalCost,
     pastTrips,
     pendingTrips,
     upcomingTrips, 
     addTrips,
-    changePageTitle
+    displayPastTrips,
+    displayFinalCost,
+    changePageTitle,
+    addDefaultButtonStyling,
+    hideTripsDiv
 }
