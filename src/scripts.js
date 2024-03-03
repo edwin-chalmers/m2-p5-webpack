@@ -5,8 +5,16 @@
 import './css/styles.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-import {displayPastTrips, displayFinalCost} from './domUpdates'
+import './images/turing-logo.png' //******** */
+import {
+    displayPastTrips, 
+    displayFinalCost, 
+    pastTrips,
+    pendingTrips,
+    upcomingTrips,
+    addTrips,
+    changePageTitle
+} from './domUpdates'
 import {fetchData} from './apiCalls'
 
 var username = document.getElementById('username')
@@ -15,6 +23,11 @@ var login = document.getElementById('login')
 const loginBox = document.getElementById('loginBox')
 const pastButton = document.getElementById('pastButton')
 const pendingButton = document.getElementById('pendingButton')
+const upcomingButton = document.getElementById('upcomingButton')
+const addButton = document.getElementById('addButton')
+const navButtons = document.querySelector('.nav-buttons')
+const dashTitle = document.getElementById('dashTitle')
+
 
 // ------- event listeners ------- //
 
@@ -33,16 +46,66 @@ login.addEventListener("click", () => {
     password.value = ''
 })
 
+// navButtons.addEventListener("click", (e) => {
+//     navButtons.classList.remove('selected-button')
+//     const button = e.target.closest('.butt');
+//     if (button) {
+//         document.querySelectorAll('.nav-buttons .butt').forEach(butt => {
+//         butt.classList.remove('selected-button');
+//         });
+    
+//     button.classList.add('selected-button');
+//       }
+// })
+
+// ----- button transitions -----
+
+function addDefaultButtonStyling() {
+    document.querySelectorAll('.nav-buttons .butt').forEach(butt => {
+        butt.classList.remove('selected-button');
+    });
+}
+
+function hideTripsDiv() {
+    document.querySelectorAll('.dashboard .trips').forEach(dashboard => {
+        dashboard.classList.add('hidden');
+    });
+}
+
 pastButton.addEventListener("click", () => {
+    addDefaultButtonStyling()
     pastButton.classList.add('selected-button')
-    pendingButton.classList.remove('selected-button')
+    hideTripsDiv()
+    changePageTitle('past')
+    pastTrips.classList.remove('hidden')
 })
 
 pendingButton.addEventListener("click", () => {
+    addDefaultButtonStyling()
     pendingButton.classList.add('selected-button')
-    pastButton.classList.remove('selected-button')
+    hideTripsDiv()
+    changePageTitle('pending')
+    pendingTrips.classList.remove('hidden')
 })
 
+upcomingButton.addEventListener("click", () => {
+    addDefaultButtonStyling()
+    upcomingButton.classList.add('selected-button')
+    hideTripsDiv()
+    changePageTitle('upcoming')
+    upcomingTrips.classList.remove('hidden')
+})
+
+addButton.addEventListener("click", () => {
+    addDefaultButtonStyling()
+    addButton.classList.add('selected-button')
+    hideTripsDiv()
+    changePageTitle('add')
+    addTrips.classList.remove('hidden')
+})
+
+
+// ----- populate page -----
 
 function parseUserId(username) {
     return Number(username.replace('traveler', ''))
