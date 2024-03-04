@@ -16,7 +16,9 @@ import {
     changePageTitle,
     addDefaultButtonStyling,
     hideTripsDiv,
-    displayDestinationsInList
+    displayDestinationsInList,
+    populateConfirmTripRequest,
+    displayErrorMessage
 } from './domUpdates'
 import {fetchData} from './apiCalls'
 
@@ -30,6 +32,13 @@ const upcomingButton = document.getElementById('upcomingButton')
 const addButton = document.getElementById('addButton')
 const navButtons = document.querySelector('.nav-buttons')
 const dashTitle = document.getElementById('dashTitle')
+const confirmTripBtn = document.getElementById('confirmTripBtn')
+const addTripInputs = {
+    startDate: document.getElementById('tripStartInput'),
+    tripDuration: document.getElementById('tripDurationInput'),
+    travelers: document.getElementById('numTravelersInput'),
+    destinations: document.getElementById('destinationSelect'),
+}
 
 
 // ------- event listeners ------- //
@@ -37,16 +46,24 @@ const dashTitle = document.getElementById('dashTitle')
 document.addEventListener("DOMContentLoaded", () => {
     username.value = ''
     password.value = ''
+    addTripInputs.tripDuration.value = ''
+    addTripInputs.travelers.value = ''
 })
 
 login.addEventListener("click", () => {
     console.log(username.value)
     console.log(password.value)
-    // getTrips('trips', parseUserId(username.value))
     getTripData(parseUserId(username.value))
     loginBox.classList.add('hidden')
     username.value = ''
     password.value = ''
+})
+
+confirmTripBtn.addEventListener("click", () => {
+    console.log('addTripInputs',addTripInputs.startDate.value)
+    if (displayErrorMessage()) {
+    populateConfirmTripRequest()
+    }
 })
 
 // ----- button transitions -----
@@ -82,6 +99,7 @@ addButton.addEventListener("click", () => {
     changePageTitle('add')
     addTrips.classList.remove('hidden')
 })
+
 
 // ----- login -----
 
@@ -152,7 +170,13 @@ function getFinalCost(data, tripsThisYear) {
     return finalCost.toFixed(2)
 }
 
-// ------- dom updates ------- //
+// const addTripInputs = {
+//     startDate: document.getElementById('tripStartInput'),
+//     tripDuration: document.getElementById('tripDurationInput'),
+//     travelers: document.getElementById('numTravelersInput'),
+//     destinations: document.getElementById('destinationSelect'),
+// }
+
 
 
 

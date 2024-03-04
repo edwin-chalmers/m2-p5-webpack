@@ -44,32 +44,39 @@
     <div id="pendingTrips" class=" trips hidden">no trips yet..</div>
     <div id="upcomingTrips" class=" trips hidden">no trips yet..</div>
     <div id="addTrips" class="add-trips trips">
-      <div class="button-flex">
+      <p id="errorAddTrips" class="hidden error">please enter a valid ---</p>
+      <div class="input-flex">
         <label for="tripStartInput">start date:</label>
-        <input class="trip-start-input" type="date" id="tripStartInput" name="trip-start" value="YYYY/MM/DD" min="2018/01/01" max="2999/1/1" />
+        <input class="trip-start-input" type="date" id="tripStartInput" name="trip-start" value="2024-03-03" min="2024/01/01" max="2099/1/1" />
       </div>
-      
-      <div class="button-flex">
-        <label for="tripDurationInput">trip duration:</label>
+      <div class="input-flex">
+        <label for="tripDurationInput">trip duration (days):</label>
         <input class="trip-duration-input" type="text" id="tripDurationInput" name="trip-duration" min="1" max="500" />
       </div>
-      
-      <div class="button-flex">
-        <label for="numTravelersInput">number of travelers:</label>
+      <div class="input-flex">
+        <label for="numTravelersInput">travelers (amount):</label>
         <input class="num-travelers-input" type="text" id="numTravelersInput" name="num-travelers" min="1" max="15" />
       </div>
-        
-      <div class="button-flex">
+      <div class="input-flex">
         <label for="destinationSelect">destinations:</label>
         <select class="destination-select" name="pets" id="destinationSelect">
           <option value=""></option>
         </select>
       </div>
-
-      <button class="confirm-trip-btn">confirm trip</button>
+      <button id="confirmTripBtn" class="confirm-trip-btn">confirm trip</button>
     </div>
-    <h3 id="costThisYear">//cost this year//</h3>
-    <h1 id="finalCost">$$$</h1>
+    <div id="confirmTrips" class="">
+      <p id="startDateConfirm">start date:</p>
+      <p id="durationComfirm">duration:</p>
+      <p id="travelersConfirm">travelers:</p>
+      <p id="destinationConfirm">destination:</p>
+      <p id="travelAgentConfirm">travel agent fee (10%): </p>
+      <button id="addTripBtn" class="add-trip-btn">add trip</button>
+    </div>
+    <h3 id="costThisYear" class="">//cost this year//</h3>
+    <h1 id="finalCost" class="">$$$</h1>
+    <h3 id="costThisTrip" class="hidden">//final cost//</h3>
+    <h1 id="finalCostThisTrip" class="hidden">$$$</h1>
   </section>
 
 

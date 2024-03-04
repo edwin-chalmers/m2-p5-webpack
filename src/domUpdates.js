@@ -4,6 +4,21 @@ const upcomingTrips = document.getElementById('upcomingTrips')
 const addTrips = document.getElementById('addTrips')
 const finalCostDiv = document.getElementById('finalCost')
 const destSelect = document.getElementById('destinationSelect')
+const errorAddTrips = document.getElementById('errorAddTrips')
+const addTripInputs = {
+    startDate: document.getElementById('tripStartInput'),
+    tripDuration: document.getElementById('tripDurationInput'),
+    travelers: document.getElementById('numTravelersInput'),
+    destinations: document.getElementById('destinationSelect'),
+}
+const confirmTripInfo = {
+    startDate: document.getElementById('startDateConfirm'),
+    tripDuration: document.getElementById('durationComfirm'),
+    travelers: document.getElementById('travelersConfirm'),
+    destinations: document.getElementById('destinationConfirm'),
+    travelAgent: document.getElementById('travelAgentConfirm'),
+    finalCostThisTrip: document.getElementById('finalCostThisTrip'),
+}
 
 function displayPastTrips(tripDates, tripLocations) {
     tripDates.forEach((date, i) => {
@@ -38,6 +53,40 @@ function displayDestinationsInList(destData) {
     })
 }
 
+function populateConfirmTripRequest(startDate, travelAgentFee, finalCost) {
+    confirmTripInfo.startDate.innerText = `start date: ${startDate}`
+    confirmTripInfo.tripDuration.innerText = `duration: ${addTripInputs.tripDuration.value} days`
+    confirmTripInfo.travelers.innerText = `travelers: ${addTripInputs.travelers.value}`
+    confirmTripInfo.destinations.innerText = `destination: ${addTripInputs.destinations.value}`
+    confirmTripInfo.travelAgent.innerText = `travel agent fee (10%): $${travelAgentFee}`
+    confirmTripInfo.finalCostThisTrip.innerText = `$${finalCost}`
+}
+
+function displayErrorMessage() {
+    let noErrors = true
+    if (addTripInputs.startDate.value.slice(0, 4) < 2024 || addTripInputs.startDate.value.slice(0, 4) > 2099) {
+        errorAddTrips.innerText = 'please enter a valid date'
+        errorAddTrips.classList.remove('hidden')
+        addTripInputs.startDate.classList.add('error')
+        noErrors = false
+    } else if (/[a-zA-Z]/.test(addTripInputs.tripDuration.value) || !addTripInputs.tripDuration.value) {
+        errorAddTrips.innerText = 'please enter a valid duration'
+        errorAddTrips.classList.remove('hidden')
+        addTripInputs.tripDuration.classList.add('error')
+        noErrors = false
+    } else if (/[a-zA-Z]/.test(addTripInputs.travelers.value) || !addTripInputs.travelers.value) {
+        errorAddTrips.innerText = 'please enter a valid traveler amount'
+        errorAddTrips.classList.remove('hidden')
+        addTripInputs.travelers.classList.add('error')
+        noErrors = false
+    } else if (!addTripInputs.destinations.value) {
+        errorAddTrips.innerText = 'please enter a valid destination'
+        errorAddTrips.classList.remove('hidden')
+        addTripInputs.destinations.classList.add('error')
+        noErrors = false
+    } 
+    return noErrors
+}
 
 
 export {
@@ -50,5 +99,7 @@ export {
     changePageTitle,
     addDefaultButtonStyling,
     hideTripsDiv,
-    displayDestinationsInList
+    displayDestinationsInList,
+    populateConfirmTripRequest,
+    displayErrorMessage
 }
