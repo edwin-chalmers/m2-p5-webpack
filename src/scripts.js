@@ -15,7 +15,8 @@ import {
     addTrips,
     changePageTitle,
     addDefaultButtonStyling,
-    hideTripsDiv
+    hideTripsDiv,
+    displayDestinationsInList
 } from './domUpdates'
 import {fetchData} from './apiCalls'
 
@@ -107,6 +108,7 @@ function getTripData(userId) {
         // --- dom updates
         displayPastTrips(chronologicalDates, tripLocations)
         displayFinalCost(finalCost)
+        displayDestinationsInList(destinations)
         
         console.log('destinations',destinations.destinations)
         console.log('tripList', sortDataById(trips, userId))
