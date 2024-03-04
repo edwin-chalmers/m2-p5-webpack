@@ -3,6 +3,7 @@ const pendingTrips = document.getElementById('pendingTrips')
 const upcomingTrips = document.getElementById('upcomingTrips')
 const addTrips = document.getElementById('addTrips')
 const finalCostDiv = document.getElementById('finalCost')
+const destSelect = document.getElementById('destinationSelect')
 
 function displayPastTrips(tripDates, tripLocations) {
     tripDates.forEach((date, i) => {
@@ -30,6 +31,14 @@ function hideTripsDiv() {
     });
 }
 
+function displayDestinationsInList(destData) {
+    let sortedDests = destData.destinations.sort((a, b) => a.destination.localeCompare(b.destination))
+    sortedDests.forEach(dest => {
+        destSelect.innerHTML += `<option value="${dest.id}">${dest.destination}</option>`
+    })
+}
+
+
 
 export {
     pastTrips,
@@ -40,5 +49,6 @@ export {
     displayFinalCost,
     changePageTitle,
     addDefaultButtonStyling,
-    hideTripsDiv
+    hideTripsDiv,
+    displayDestinationsInList
 }

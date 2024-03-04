@@ -1,9 +1,44 @@
 $main-color: #048096;
+
 $accent-color: #FAC000;
+
 $black-text: rgb(34, 34, 34);
-@mixin flex-center{
-    display: flex;
+
+@mixin flex-center {
+  display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+
+@mixin main-button {
+  border: none;
+  font-size: large;
+  font-weight: 700;
+  color: white;
+  background-color: $main-color;
+  padding: 8px 50px;
+  border-radius: 6px;
+  margin: 30px 40px;
+}
+
+@mixin main-input-styling {
+  border: none;
+  border-bottom: 1px solid rgb(105, 105, 105);
+  background-color: rgba(255, 255, 255, 0);
+  margin-bottom: 10px;
+  
+  &:focus {
+    outline: 2px solid $accent-color;
+  }
+}
+
+@mixin remove-div-styling {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0);
+  align-items: center;
+  overflow-y: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0);
 }

@@ -52,14 +52,7 @@ body {
   }
   
   button {
-    border: none;
-    font-size: large;
-    font-weight: 700;
-    color: white;
-    background-color: $main-color;
-    padding: 8px 50px;
-    border-radius: 6px;
-    margin: 30px 40px;
+    @include main-button
   } 
 }
 
@@ -85,7 +78,7 @@ body {
     margin-bottom: 5px;
   }
 
-  button {
+  .butt {
     border: 1px solid white;
     font-size: large;
     color: white;
@@ -132,7 +125,67 @@ body {
     color: white;
     margin-top: 0;
   }
+
+  .add-trips {
+    display: flex;
+    flex-direction: column;
+    
+    div {
+      @include remove-div-styling;
+      padding: 0;
+      height: auto;
+    }
+
+    .button-flex {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      margin: 0;
+      
+    }
+    
+    .trip-start-input {
+    @include main-input-styling;
+    width: 110px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 70px
+    }
+  
+    .trip-duration-input {
+    @include main-input-styling;
+    width: 110px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 70px;
+    text-align: center;
+    }
+  
+    .num-travelers-input {
+    @include main-input-styling;
+    width: 110px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 70px;
+    text-align: center;
+    }
+  
+    .destination-select {
+    @include main-input-styling;
+    width: 114px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 70px;
+    text-align: center;
+    }
+  
+    .confirm-trip-btn {
+      @include main-button;
+      margin-bottom: 0px
+    }
+  }
 }
+
 
 
 
