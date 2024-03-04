@@ -47,19 +47,22 @@ function hideTripsDiv() {
 }
 
 function displayDestinationsInList(destData) {
+
     let sortedDests = destData.destinations.sort((a, b) => a.destination.localeCompare(b.destination))
     sortedDests.forEach(dest => {
         destSelect.innerHTML += `<option value="${dest.id}">${dest.destination}</option>`
     })
 }
 
-function populateConfirmTripRequest(startDate, travelAgentFee, finalCost) {
+function populateConfirmTripRequest(startDate, tripCost, destName) {
+    let travelAgentFee = tripCost * 0.1
+    let finalCost = tripCost * 1.1
     confirmTripInfo.startDate.innerText = `start date: ${startDate}`
     confirmTripInfo.tripDuration.innerText = `duration: ${addTripInputs.tripDuration.value} days`
     confirmTripInfo.travelers.innerText = `travelers: ${addTripInputs.travelers.value}`
-    confirmTripInfo.destinations.innerText = `destination: ${addTripInputs.destinations.value}`
-    confirmTripInfo.travelAgent.innerText = `travel agent fee (10%): $${travelAgentFee}`
-    confirmTripInfo.finalCostThisTrip.innerText = `$${finalCost}`
+    confirmTripInfo.destinations.innerText = `destination: ${destName}`
+    confirmTripInfo.travelAgent.innerText = `travel agent fee (10%): $${travelAgentFee.toFixed(2)}`
+    confirmTripInfo.finalCostThisTrip.innerText = `$${finalCost.toFixed(2)}`
 
     // hide pages
     // show amount

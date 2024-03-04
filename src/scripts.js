@@ -39,6 +39,37 @@ const addTripInputs = {
     travelers: document.getElementById('numTravelersInput'),
     destinations: document.getElementById('destinationSelect'),
 }
+let destList = []
+
+function getTripData(userId) {
+    Promise.all([fetchData('trips'), fetchData('destinations')])
+    .then(([trips, destinations]) => {
+        // --- past trips 
+
+        let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
+        let tripList = sortDataById(trips, userId)
+        let tripLocations = getDestinationsByIds(destinations, tripList)
+        let tripsThisYear = getTripsThisYear(tripList)
+        let finalCost = getFinalCost(destinations, tripsThisYear)
+
+        // --- add trips
+        // let newTripTotal = calculateNewTrip(destinations)
+        populateDestList(destinations)
+        // console.log('destList', destList)
+        
+        // --- dom updates
+        displayPastTrips(chronologicalDates, tripLocations)
+        displayFinalCost(finalCost)
+        displayDestinationsInList(destinations)
+        // populateTripConfirmation(destinations)
+        
+        console.log('destinations',destinations.destinations)
+        console.log('tripList', sortDataById(trips, userId))
+        console.log('tripLocations', tripLocations)
+    })
+    .catch(error => console.error("Error loading data:", error));
+}
+console.log('destList', destList)
 
 
 // ------- event listeners ------- //
@@ -59,10 +90,15 @@ login.addEventListener("click", () => {
     password.value = ''
 })
 
-confirmTripBtn.addEventListener("click", () => {
-    console.log('addTripInputs',addTripInputs.startDate.value)
+confirmTripBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    // console.log('destList', destList)
+    let dateValue = replaceDashes(addTripInputs.startDate.value)
+    let finalCostValue = calculateNewTrip()
+    let destName = getDestinationNameById()
+
     if (displayErrorMessage()) {
-    populateConfirmTripRequest()
+    populateConfirmTripRequest(dateValue, finalCostValue, destName)
     }
 })
 
@@ -113,27 +149,6 @@ function sortDataById(data, userId) {
 
 // ----- populate page -----
 
-function getTripData(userId) {
-    Promise.all([fetchData('trips'), fetchData('destinations')])
-    .then(([trips, destinations]) => {
-        // --- past trips 
-        let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
-        let tripList = sortDataById(trips, userId)
-        let tripLocations = getDestinationsByIds(destinations, tripList)
-        let tripsThisYear = getTripsThisYear(tripList)
-        let finalCost = getFinalCost(destinations, tripsThisYear)
-        
-        // --- dom updates
-        displayPastTrips(chronologicalDates, tripLocations)
-        displayFinalCost(finalCost)
-        displayDestinationsInList(destinations)
-        
-        console.log('destinations',destinations.destinations)
-        console.log('tripList', sortDataById(trips, userId))
-        console.log('tripLocations', getDestinationsByIds(destinations, tripList))
-    })
-    .catch(error => console.error("Error loading data:", error));
-}
 
 function getDestinationsByIds(data, destIds) {
     let destArray = []
@@ -177,7 +192,33 @@ function getFinalCost(data, tripsThisYear) {
 //     destinations: document.getElementById('destinationSelect'),
 // }
 
+// formatting for addDates
+
+function replaceDashes(date) {
+    return date.replace(/-/g, '/')
+  }
+
+function calculateNewTrip() {
+    let tripToal = 0
+    let destId = parseInt(addTripInputs.destinations.value)
+    let tripDuration = parseInt(addTripInputs.tripDuration.value) 
+    let travelers = parseInt(addTripInputs.travelers.value) 
+    let selectDest = destList.find(dest => dest.id === destId);
+    
+    tripToal += selectDest.estimatedLodgingCostPerDay * tripDuration
+    tripToal += selectDest.estimatedFlightCostPerPerson * travelers
+    return tripToal
+}
+
+function getDestinationNameById() {
+    let destId = parseInt(addTripInputs.destinations.value)
+    let destination = destList.find(dest => dest.id == destId);
+    return destination.destination
+}
+
+function populateDestList(destData) {
+    destList = destData.destinations
+}
 
 
-
-getTripData(parseUserId('40'))
+getTripData(23)
