@@ -136,7 +136,7 @@ body {
       height: auto;
     }
 
-    .button-flex {
+    .input-flex {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
@@ -149,7 +149,7 @@ body {
     width: 110px;
     margin-top: 10px;
     margin-left: 10px;
-    margin-right: 70px
+    margin-right: 70px;
     }
   
     .trip-duration-input {
@@ -184,6 +184,11 @@ body {
       margin-bottom: 0px
     }
   }
+  
+  .add-trip-btn {
+    @include main-button;
+    margin-bottom: 0px
+  }
 }
 
 
@@ -203,4 +208,8 @@ body {
   svg {
     fill: $main-color !important;
   }
+}
+
+.error {
+  color: $error-color !important;
 }
