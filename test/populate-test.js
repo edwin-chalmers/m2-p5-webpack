@@ -34,3 +34,59 @@ describe('getDestinationsByIds()', () => {
     });
 
 });
+
+describe('getTripsThisYear()', () => {
+    
+    it('should return an array of the most recent year of trips give a valid ID', () => {
+        let userTrips12 = sortDataById(tripsData, 12)
+        let tripsThisYear12 = getTripsThisYear(userTrips12)
+        expect(tripsThisYear12).to.have.lengthOf(6)
+        expect(tripsThisYear12[1].date.slice(0, 4)).to.equal(tripsThisYear12[0].date.slice(0, 4))
+        expect(tripsThisYear12[3].date.slice(0, 4)).to.equal(tripsThisYear12[0].date.slice(0, 4))
+        expect(tripsThisYear12[5].date.slice(0, 4)).to.equal(tripsThisYear12[0].date.slice(0, 4))
+    });
+    
+    it('should return an array of the most recent year of trips give a different valid ID', () => {
+        let userTrips39 = sortDataById(tripsData, 39)
+        let tripsThisYear39 = getTripsThisYear(userTrips39)
+        expect(tripsThisYear39).to.have.lengthOf(4)
+        expect(tripsThisYear39[1].date.slice(0, 4)).to.equal(tripsThisYear39[0].date.slice(0, 4))
+        expect(tripsThisYear39[2].date.slice(0, 4)).to.equal(tripsThisYear39[0].date.slice(0, 4))
+        expect(tripsThisYear39[3].date.slice(0, 4)).to.equal(tripsThisYear39[0].date.slice(0, 4))
+    });
+    
+    it('should return an empty array given an invalid ID', () => {
+        let userTrips222 = sortDataById(tripsData, 222)
+        let tripsThisYear222 = getTripsThisYear(userTrips222)
+        expect(tripsThisYear222).to.have.lengthOf(0)
+    });
+
+});
+
+describe('getFinalCost()', () => {
+    
+    it('should return the total of trips taken', () => {
+        let userTrips12 = sortDataById(tripsData, 12)
+        let tripsThisYear12 = getTripsThisYear(userTrips12)
+        let finalCost12 = getFinalCost(destData, tripsThisYear12)
+
+        expect(finalCost12).to.equal('984.50')
+    });
+    
+    it('should return the total of different trips taken', () => {
+        let userTrips31 = sortDataById(tripsData, 31)
+        let tripsThisYear31 = getTripsThisYear(userTrips31)
+        let finalCost31 = getFinalCost(destData, tripsThisYear31)
+
+        expect(finalCost31).to.equal('2028.40')
+    });
+    
+    it('should return 0 if an empty array is passed', () => {
+        let userTrips499 = sortDataById(tripsData, 499)
+        let tripsThisYear499 = getTripsThisYear(userTrips499)
+        let finalCost499 = getFinalCost(destData, tripsThisYear499)
+
+        expect(finalCost499).to.equal('0.00')
+    });
+
+});
