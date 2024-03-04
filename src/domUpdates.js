@@ -60,6 +60,9 @@ function populateConfirmTripRequest(startDate, travelAgentFee, finalCost) {
     confirmTripInfo.destinations.innerText = `destination: ${addTripInputs.destinations.value}`
     confirmTripInfo.travelAgent.innerText = `travel agent fee (10%): $${travelAgentFee}`
     confirmTripInfo.finalCostThisTrip.innerText = `$${finalCost}`
+
+    // hide pages
+    // show amount
 }
 
 function displayErrorMessage() {
