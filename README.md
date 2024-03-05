@@ -64,6 +64,7 @@ npm install
 npm start
 ```
 6. Explore Travel Tracker:
+    * Log in with username: `traveler<number between 1-50>` and password: `traveler`
     * Go to the local directory listed in your terminal. You should now see the Travel Tracker dashboard loaded in your browser, ready for you to explore the features and functionality.
 
 
