@@ -7,6 +7,7 @@
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
+
 }
 
 // ----- login ----- //
@@ -19,7 +20,8 @@ body {
   background-size: cover; 
   position: relative;
   margin: 0;
-  height: 100vh
+  height: 100vh;
+  background-color: $main-color;
 }
 
 .login-box {
@@ -33,6 +35,7 @@ body {
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.95);
   border-radius: 6px;
+  // margin: 30px;
 
   box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 
@@ -61,6 +64,7 @@ body {
   border-bottom: 1px solid rgb(105, 105, 105);
   background-color: rgba(255, 255, 255, 0);
   margin-bottom: 10px;
+  width: 200px;
   
   &:focus {
     outline: 2px solid $accent-color;
@@ -98,6 +102,7 @@ body {
 
   div {
     @include flex-center;
+    align-items: flex-start;
     width: 50vh;
     height: 40vh;
     background-color: rgba(255, 255, 255, 0.95);
@@ -108,7 +113,7 @@ body {
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     overflow-y: auto;  
 
-    p {
+    ul {
       margin: 10px;
     }
   }
@@ -210,6 +215,14 @@ body {
       margin: 5px;
     }
   }
+}
+
+.upcoming-trips {
+  align-items: center !important;
+}
+
+.add-trips {
+  align-items: center !important;
 }
 
 
