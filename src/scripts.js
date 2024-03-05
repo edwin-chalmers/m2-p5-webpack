@@ -1,11 +1,6 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png' //******** */
+import './images/turing-logo.png'
 import {
     displayPastTrips, 
     displayFinalCost, 
@@ -86,8 +81,8 @@ function getTripData(userId) {
         displayFinalCost(finalCost)
         displayDestinationsInList(destinations)
         displayPendingTrips(pendingTrips, pendingDestinations)
-        // display pending trips 
         
+        // display pending trips 
         console.log('newTrip', newTrip)
         console.log('destinations',destinations.destinations)
         console.log('tripList', tripList)
@@ -96,8 +91,6 @@ function getTripData(userId) {
     })
     .catch(error => console.error("Error loading data:", error));
 }
-
-// ------- event listeners ------- //
 
 document.addEventListener("DOMContentLoaded", () => {
     username.value = ''
@@ -124,7 +117,6 @@ login.addEventListener("click", () => {
 })
 
 confirmTripBtn.addEventListener("click", (e) => {
-    // e.preventDefault()
     getDestListFromSession()
     
     if (displayErrorMessage()) {
@@ -143,19 +135,13 @@ goBackBtn.addEventListener("click", () => {
 addTripBtn.addEventListener("click", () => {
     console.log(' populateNewTrip',newTrip)
     populateNewTrip()
-    postData('trips', newTrip) // Send the POST request
+    postData('trips', newTrip) 
         .then(response => {
-            switchToPendingTrips(); // Update UI to show pending trips
-            return getTripData(newTrip.userID); // Fetch the latest trips data including the new trip
+            switchToPendingTrips();
+            return getTripData(newTrip.userID);
         })
-        // .then(() => {
-        //     console.log('Updated trip data fetched');
-        //     // Optionally, update the UI based on the newly fetched data
-        // })
         .catch(error => console.error("Error in adding new trip:", error));
 })
-
-// ----- button transitions -----
 
 pastButton.addEventListener("click", () => {
     addDefaultButtonStyling()
@@ -189,9 +175,6 @@ addButton.addEventListener("click", () => {
     addTrips.classList.remove('hidden')
 })
 
-
-// ----- login -----
-
 function parseUserId(username) {
     return Number(username.replace('traveler', ''))
 }
@@ -211,8 +194,6 @@ function sortDestinationsByPending(tripsData, destData) {
     })
     return dest
 }
-// ----- populate page -----
-
 
 function getDestinationsByIds(data, destIds) {
     let destArray = []
@@ -314,7 +295,3 @@ function verifyLogin() {
     }
     return verified
 }
-
-
-
-// getTripData(40)
