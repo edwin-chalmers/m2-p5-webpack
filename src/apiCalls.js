@@ -17,7 +17,7 @@ function postData(endpoint, content) {
     return fetch(`http://localhost:3001/api/v1/${endpoint}`, {
         method: "POST",
 		headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(`${content}`)
+        body: JSON.stringify(content)
     })
     .then(response => {
         if (!response.ok) {
@@ -33,4 +33,4 @@ function postData(endpoint, content) {
 }
 
 
-export {fetchData}
+export {fetchData, postData}
