@@ -1,3 +1,5 @@
+var username = document.getElementById('username')
+var password = document.getElementById('pass')
 const navButtons = document.getElementById('navButtons')
 const pastTrips = document.getElementById('pastTrips')
 const pendingTrips = document.getElementById('pendingTrips')
@@ -24,6 +26,9 @@ const confirmTripInfo = {
 }
 const costThisTrip = document.getElementById('costThisTrip')
 const finalCostThisTrip = document.getElementById('finalCostThisTrip')
+const usernameDiv = document.getElementById('usernameDiv')
+const passwordDiv = document.getElementById('passwordDiv')
+
 
 function displayPastTrips(tripDates, tripLocations) {
     pastTrips.innerHTML = ''
@@ -69,9 +74,6 @@ function populateConfirmTripRequest(startDate, tripCost, destName) {
     confirmTripInfo.destinations.innerText = `destination: ${destName}`
     confirmTripInfo.travelAgent.innerText = `travel agent fee (10%): $${travelAgentFee.toFixed(2)}`
     confirmTripInfo.finalCostThisTrip.innerText = `$${finalCost.toFixed(2)}`
-
-    // hide pages
-    // show amount
 }
 
 function displayErrorMessage() {
@@ -141,7 +143,23 @@ function switchToPendingTrips() {
     
     addButton.classList.remove('selected-button')
     pendingButton.classList.add('selected-button')
+}
 
+function displayDash() {
+    loginBox.classList.add('hidden')
+    navButtons.classList.remove('hidden')
+    dashTitle.classList.remove('hidden')
+    costThisYear.classList.remove('hidden')
+    finalCostDiv.classList.remove('hidden')
+    pastTrips.classList.remove('hidden')
+}
+
+function displayLoginError(field) {
+    if (field === 'username') {
+        usernameDiv.classList.add('error')
+    } else if (field === 'password') {
+        passwordDiv.classList.add('error')
+    }
 }
 
 export {
@@ -160,5 +178,7 @@ export {
     displayNewTripConfirm,
     goBackAddTrip,
     displayPendingTrips,
-    switchToPendingTrips
+    switchToPendingTrips,
+    displayDash,
+    displayLoginError
 }

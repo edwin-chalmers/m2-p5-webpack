@@ -22,7 +22,9 @@ import {
     displayNewTripConfirm,
     goBackAddTrip,
     displayPendingTrips,
-    switchToPendingTrips
+    switchToPendingTrips,
+    displayDash,
+    displayLoginError
 } from './domUpdates'
 import {fetchData, postData} from './apiCalls'
 
@@ -46,6 +48,7 @@ const addTripInputs = {
 const goBackBtn = document.getElementById('goBackBtn')
 const addTripBtn = document.getElementById('addTripBtn')
 
+let travelersList = []
 let destList = []
 let newTrip = {
     id: `<number>`, 
@@ -101,15 +104,23 @@ document.addEventListener("DOMContentLoaded", () => {
     password.value = ''
     addTripInputs.tripDuration.value = ''
     addTripInputs.travelers.value = ''
+    fetchData('travelers')
+        .then(response => {
+            travelersList = response
+            console.log(travelersList.travelers.length)
+        })
+        .catch(error => console.error("Error in finding travelers:", error));
 })
 
 login.addEventListener("click", () => {
     console.log(username.value)
     console.log(password.value)
-    getTripData(parseUserId(username.value))
-    loginBox.classList.add('hidden')
-    username.value = ''
-    password.value = ''
+    if (verifyLogin()) {
+        getTripData(parseUserId(username.value))
+        displayDash()
+        username.value = ''
+        password.value = '' 
+    }
 })
 
 confirmTripBtn.addEventListener("click", (e) => {
@@ -285,4 +296,25 @@ function populateNewTrip() {
     newTrip.duration = parseInt(addTripInputs.tripDuration.value)
 }
 
-getTripData(40)
+function verifyLogin() {
+    let verified = true
+    let travelerAmount = travelersList.travelers.length
+    if (!username.value.includes('traveler')) {
+        displayLoginError('username')
+        verified = false
+    } else if (!/\d/.test(username.value)) {
+        displayLoginError('username')
+        verified = false
+    } else if (parseInt(username.value.replace('traveler', '')) > travelerAmount) {
+        displayLoginError('username')
+        verified = false
+    } else if (!password.value.includes('traveler')) {
+        displayLoginError('password')
+        verified = false
+    }
+    return verified
+}
+
+
+
+// getTripData(40)
