@@ -20,7 +20,9 @@ import {
     populateConfirmTripRequest,
     displayErrorMessage,
     displayNewTripConfirm,
-    goBackAddTrip
+    goBackAddTrip,
+    displayPendingTrips,
+    switchToPendingTrips
 } from './domUpdates'
 import {fetchData, postData} from './apiCalls'
 
@@ -66,6 +68,10 @@ function getTripData(userId) {
         let tripLocations = getDestinationsByIds(destinations, tripList)
         let tripsThisYear = getTripsThisYear(tripList)
         let finalCost = getFinalCost(destinations, tripsThisYear)
+        let pendingTrips = sortTripsByPending(trips, userId).sort((a, b) => a.destinationID - b.destinationID)
+        let pendingDestinations = sortDestinationsByPending(pendingTrips, destinations)
+        console.log('pendingTrips', pendingTrips)
+        console.log('pendingDestinations', pendingDestinations)
 
         // --- new trips object
         newTrip.id = getMostRecentTripId(trips) + 1
@@ -78,7 +84,8 @@ function getTripData(userId) {
         displayPastTrips(chronologicalDates, tripLocations)
         displayFinalCost(finalCost)
         displayDestinationsInList(destinations)
-        // populateTripConfirmation(destinations)
+        displayPendingTrips(pendingTrips, pendingDestinations)
+        // display pending trips 
         
         console.log('newTrip', newTrip)
         console.log('destinations',destinations.destinations)
@@ -110,7 +117,8 @@ login.addEventListener("click", () => {
 })
 
 confirmTripBtn.addEventListener("click", (e) => {
-    e.preventDefault()
+    // e.preventDefault()
+    getDestListFromSession()
     
     if (displayErrorMessage()) {
         let dateValue = replaceDashes(addTripInputs.startDate.value)
@@ -126,12 +134,18 @@ goBackBtn.addEventListener("click", () => {
 })
 
 addTripBtn.addEventListener("click", () => {
-    populateNewTrip()
     console.log(' populateNewTrip',newTrip)
-    postData('trips', newTrip)
-    // add trip
-        // POST trip information
-        // bring user to pening trips page
+    populateNewTrip()
+    postData('trips', newTrip) // Send the POST request
+        .then(response => {
+            switchToPendingTrips(); // Update UI to show pending trips
+            return getTripData(newTrip.userID); // Fetch the latest trips data including the new trip
+        })
+        .then(() => {
+            console.log('Updated trip data fetched');
+            // Optionally, update the UI based on the newly fetched data
+        })
+        .catch(error => console.error("Error in adding new trip:", error));
 })
 
 // ----- button transitions -----
@@ -179,6 +193,17 @@ function sortDataById(data, userId) {
     return data.trips.filter(data => data.userID === userId && data.status === "approved")
 }
 
+function sortTripsByPending(data, userId) {
+    return data.trips.filter(data => data.userID === userId && data.status === "pending")
+}
+
+function sortDestinationsByPending(tripsData, destData) {
+    let dest = []
+    tripsData.forEach(trip => {
+        dest.push(destData.destinations.find(dest => dest.id === trip.destinationID))
+    })
+    return dest
+}
 // ----- populate page -----
 
 
@@ -240,7 +265,17 @@ function getDestinationNameById() {
 }
 
 function populateDestList(destData) {
-    destList = destData.destinations
+    destList = destData.destinations;
+    sessionStorage.setItem('destList', JSON.stringify(destList));
+}
+
+function getDestListFromSession() {
+    const storedDestList = sessionStorage.getItem('destList');
+    if (storedDestList) {
+        destList = JSON.parse(storedDestList);
+    } else {
+        console.log('No destList found in sessionStorage.');
+    }
 }
 
 function getMostRecentTripId(tripsData) {
