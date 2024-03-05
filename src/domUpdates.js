@@ -26,6 +26,7 @@ const costThisTrip = document.getElementById('costThisTrip')
 const finalCostThisTrip = document.getElementById('finalCostThisTrip')
 
 function displayPastTrips(tripDates, tripLocations) {
+    pastTrips.innerHTML = ''
     tripDates.forEach((date, i) => {
         pastTrips.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} // ${date}</p>`
     })
@@ -123,7 +124,6 @@ function displayPendingTrips(pendTrips, tripLocations) {
     if (pendTrips && tripLocations) {
         pendingTrips.innerText = ''
         pendTrips.forEach((trip, i) => {
-            console.log('pendTrips',trip)
             pendingTrips.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} // ${trip.date}</p>`
         })
     }
@@ -132,11 +132,12 @@ function displayPendingTrips(pendTrips, tripLocations) {
 function switchToPendingTrips() {
     navButtons.classList.remove('hidden')
     pendingTrips.classList.remove('hidden')
+    costThisYear.classList.remove('hidden')
+    finalCostDiv.classList.remove('hidden')
     costThisTrip.classList.add('hidden')
     finalCostThisTrip.classList.add('hidden')
     confirmTrips.classList.add('hidden')
-    costThisYear.classList.remove('hidden')
-    finalCostDiv.classList.remove('hidden')
+    changePageTitle('pending')
     
     addButton.classList.remove('selected-button')
     pendingButton.classList.add('selected-button')

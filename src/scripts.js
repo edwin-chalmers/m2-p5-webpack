@@ -70,8 +70,6 @@ function getTripData(userId) {
         let finalCost = getFinalCost(destinations, tripsThisYear)
         let pendingTrips = sortTripsByPending(trips, userId).sort((a, b) => a.destinationID - b.destinationID)
         let pendingDestinations = sortDestinationsByPending(pendingTrips, destinations)
-        console.log('pendingTrips', pendingTrips)
-        console.log('pendingDestinations', pendingDestinations)
 
         // --- new trips object
         newTrip.id = getMostRecentTripId(trips) + 1
@@ -95,8 +93,6 @@ function getTripData(userId) {
     })
     .catch(error => console.error("Error loading data:", error));
 }
-console.log('destList', destList)
-
 
 // ------- event listeners ------- //
 
@@ -141,10 +137,10 @@ addTripBtn.addEventListener("click", () => {
             switchToPendingTrips(); // Update UI to show pending trips
             return getTripData(newTrip.userID); // Fetch the latest trips data including the new trip
         })
-        .then(() => {
-            console.log('Updated trip data fetched');
-            // Optionally, update the UI based on the newly fetched data
-        })
+        // .then(() => {
+        //     console.log('Updated trip data fetched');
+        //     // Optionally, update the UI based on the newly fetched data
+        // })
         .catch(error => console.error("Error in adding new trip:", error));
 })
 
