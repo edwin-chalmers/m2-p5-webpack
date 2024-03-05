@@ -22,7 +22,7 @@ import {
     displayNewTripConfirm,
     goBackAddTrip
 } from './domUpdates'
-import {fetchData} from './apiCalls'
+import {fetchData, postData} from './apiCalls'
 
 var username = document.getElementById('username')
 var password = document.getElementById('pass')
@@ -73,9 +73,6 @@ function getTripData(userId) {
 
         // --- add trips
         populateDestList(destinations)
-
-
-
         
         // --- dom updates
         displayPastTrips(chronologicalDates, tripLocations)
@@ -131,6 +128,7 @@ goBackBtn.addEventListener("click", () => {
 addTripBtn.addEventListener("click", () => {
     populateNewTrip()
     console.log(' populateNewTrip',newTrip)
+    postData('trips', newTrip)
     // add trip
         // POST trip information
         // bring user to pening trips page
@@ -250,10 +248,10 @@ function getMostRecentTripId(tripsData) {
 }
 
 function populateNewTrip() {
-    newTrip.destinationID = addTripInputs.destinations.value
-    newTrip.travelers = addTripInputs.travelers.value
+    newTrip.destinationID = parseInt(addTripInputs.destinations.value)
+    newTrip.travelers = parseInt(addTripInputs.travelers.value)
     newTrip.date = replaceDashes(addTripInputs.startDate.value)
-    newTrip.duration = addTripInputs.tripDuration.value
+    newTrip.duration = parseInt(addTripInputs.tripDuration.value)
 }
 
 getTripData(40)
