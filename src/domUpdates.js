@@ -26,14 +26,14 @@ const confirmTripInfo = {
 }
 const costThisTrip = document.getElementById('costThisTrip')
 const finalCostThisTrip = document.getElementById('finalCostThisTrip')
-const usernameDiv = document.getElementById('usernameDiv')
-const passwordDiv = document.getElementById('passwordDiv')
+const usernameDiv = document.querySelector('#usernameDiv label')
+const passwordDiv = document.querySelector('#passwordDiv label')
 
 
 function displayPastTrips(tripDates, tripLocations) {
     pastTrips.innerHTML = ''
     tripDates.forEach((date, i) => {
-        pastTrips.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} // ${date}</p>`
+        pastTrips.innerHTML += `<ul>${i+1}. ${tripLocations[i].destination} // ${date}</ul>`
     })
 }
 
@@ -126,7 +126,7 @@ function displayPendingTrips(pendTrips, tripLocations) {
     if (pendTrips && tripLocations) {
         pendingTrips.innerText = ''
         pendTrips.forEach((trip, i) => {
-            pendingTrips.innerHTML += `<p>${i+1}. ${tripLocations[i].destination} // ${trip.date}</p>`
+            pendingTrips.innerHTML += `<ul>${i+1}. ${tripLocations[i].destination} // ${trip.date}</ul>`
         })
     }
 }
@@ -157,8 +157,10 @@ function displayDash() {
 function displayLoginError(field) {
     if (field === 'username') {
         usernameDiv.classList.add('error')
+        usernameDiv.innerText = 'please enter a valid username'
     } else if (field === 'password') {
         passwordDiv.classList.add('error')
+        passwordDiv.innerText = 'please enter a valid password'
     }
 }
 
