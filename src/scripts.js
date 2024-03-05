@@ -18,7 +18,9 @@ import {
     hideTripsDiv,
     displayDestinationsInList,
     populateConfirmTripRequest,
-    displayErrorMessage
+    displayErrorMessage,
+    displayNewTripConfirm,
+    goBackAddTrip
 } from './domUpdates'
 import {fetchData} from './apiCalls'
 
@@ -39,7 +41,20 @@ const addTripInputs = {
     travelers: document.getElementById('numTravelersInput'),
     destinations: document.getElementById('destinationSelect'),
 }
+const goBackBtn = document.getElementById('goBackBtn')
+const addTripBtn = document.getElementById('addTripBtn')
+
 let destList = []
+let newTrip = {
+    id: `<number>`, 
+    userID: `<number>`, 
+    destinationID: `<number>`, 
+    travelers: `<number>`, 
+    date: `<string 'YYYY/MM/DD'>`, 
+    duration: `<number>`, 
+    status: "pending", 
+    suggestedActivities: []
+}
 
 function getTripData(userId) {
     Promise.all([fetchData('trips'), fetchData('destinations')])
@@ -47,15 +62,20 @@ function getTripData(userId) {
         // --- past trips 
 
         let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
-        let tripList = sortDataById(trips, userId)
+        let tripList = sortDataById(trips, userId).sort((a, b) => a.destinationID - b.destinationID)
         let tripLocations = getDestinationsByIds(destinations, tripList)
         let tripsThisYear = getTripsThisYear(tripList)
         let finalCost = getFinalCost(destinations, tripsThisYear)
 
+        // --- new trips object
+        newTrip.id = getMostRecentTripId(trips) + 1
+        newTrip.userID = userId
+
         // --- add trips
-        // let newTripTotal = calculateNewTrip(destinations)
         populateDestList(destinations)
-        // console.log('destList', destList)
+
+
+
         
         // --- dom updates
         displayPastTrips(chronologicalDates, tripLocations)
@@ -63,8 +83,10 @@ function getTripData(userId) {
         displayDestinationsInList(destinations)
         // populateTripConfirmation(destinations)
         
+        console.log('newTrip', newTrip)
         console.log('destinations',destinations.destinations)
-        console.log('tripList', sortDataById(trips, userId))
+        console.log('tripList', tripList)
+        console.log('trips', trips)
         console.log('tripLocations', tripLocations)
     })
     .catch(error => console.error("Error loading data:", error));
@@ -92,14 +114,26 @@ login.addEventListener("click", () => {
 
 confirmTripBtn.addEventListener("click", (e) => {
     e.preventDefault()
-    // console.log('destList', destList)
-    let dateValue = replaceDashes(addTripInputs.startDate.value)
-    let finalCostValue = calculateNewTrip()
-    let destName = getDestinationNameById()
-
+    
     if (displayErrorMessage()) {
-    populateConfirmTripRequest(dateValue, finalCostValue, destName)
+        let dateValue = replaceDashes(addTripInputs.startDate.value)
+        let destName = getDestinationNameById()
+        let finalCostValue = calculateNewTrip()
+        populateConfirmTripRequest(dateValue, finalCostValue, destName)
+        displayNewTripConfirm()
     }
+})
+
+goBackBtn.addEventListener("click", () => {
+    goBackAddTrip()
+})
+
+addTripBtn.addEventListener("click", () => {
+    populateNewTrip()
+    console.log(' populateNewTrip',newTrip)
+    // add trip
+        // POST trip information
+        // bring user to pening trips page
 })
 
 // ----- button transitions -----
@@ -144,7 +178,7 @@ function parseUserId(username) {
 }
 
 function sortDataById(data, userId) {
-    return data.trips.filter(data => data.userID === userId)
+    return data.trips.filter(data => data.userID === userId && data.status === "approved")
 }
 
 // ----- populate page -----
@@ -185,15 +219,6 @@ function getFinalCost(data, tripsThisYear) {
     return finalCost.toFixed(2)
 }
 
-// const addTripInputs = {
-//     startDate: document.getElementById('tripStartInput'),
-//     tripDuration: document.getElementById('tripDurationInput'),
-//     travelers: document.getElementById('numTravelersInput'),
-//     destinations: document.getElementById('destinationSelect'),
-// }
-
-// formatting for addDates
-
 function replaceDashes(date) {
     return date.replace(/-/g, '/')
   }
@@ -220,5 +245,15 @@ function populateDestList(destData) {
     destList = destData.destinations
 }
 
+function getMostRecentTripId(tripsData) {
+    return tripsData.trips.length
+}
 
-getTripData(23)
+function populateNewTrip() {
+    newTrip.destinationID = addTripInputs.destinations.value
+    newTrip.travelers = addTripInputs.travelers.value
+    newTrip.date = replaceDashes(addTripInputs.startDate.value)
+    newTrip.duration = addTripInputs.tripDuration.value
+}
+
+getTripData(40)
