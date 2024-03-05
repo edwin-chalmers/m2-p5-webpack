@@ -91,6 +91,9 @@ Usability testing for the Travel Tracker application was planned and executed to
 In the next phase of development, I'm focusing on enhancing user interaction with the Travel Tracker application by enabling users to click on any item within the pending or past trips sections to view detailed descriptions and data about each trip. This feature is aimed at providing users with a more immersive and informative experience, allowing them to delve deeper into the specifics of their travel history and pending adventures.
 
 ## Screenshots
+<img width="1437" alt="image" src="https://github.com/edwin-chalmers/travel-tracker/assets/149631946/4670ceed-05b4-4cdf-9c38-3b3cfd2cb9f3">
+<img width="1437" alt="image" src="https://github.com/edwin-chalmers/travel-tracker/assets/149631946/e61faa3f-4adf-4015-8c29-6ace9a95b33d">
+
 
 
 ## Contributors
