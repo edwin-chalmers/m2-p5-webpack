@@ -5,7 +5,8 @@ import { sortDataById } from '../src/functions-4-tests/login.js'
 import {
     getDestinationsByIds,
     getTripsThisYear,
-    getFinalCost
+    getFinalCost,
+    replaceDashes,
 } from '../src/functions-4-tests/populate.js'
 
 describe('getDestinationsByIds()', () => {
@@ -87,6 +88,31 @@ describe('getFinalCost()', () => {
         let finalCost499 = getFinalCost(destData, tripsThisYear499)
 
         expect(finalCost499).to.equal('0.00')
+    });
+
+});
+
+describe('replaceDashes()', () => {
+  
+    it('should reformat dashes to slashes', () => {
+        let dashes = '2024-12-23'
+        let slashes = replaceDashes(dashes)
+
+        expect(slashes).to.equal('2024/12/23')
+    });
+  
+    it('should reformat more dashes to slashes', () => {
+        let dashesssss = '----2-0-2-4-1-2-2-3----'
+        let slashesssss = replaceDashes(dashesssss)
+
+        expect(slashesssss).to.equal('////2/0/2/4/1/2/2/3////')
+    });
+  
+    it('should not reformat enything if there are no dashes', () => {
+        let noDash = 'Hey'
+        let slashesssss = replaceDashes(noDash)
+
+        expect(slashesssss).to.equal('Hey')
     });
 
 });

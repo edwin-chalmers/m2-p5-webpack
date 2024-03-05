@@ -12,7 +12,21 @@ function sortDataById(data, userId) {
     }
 }
 
+function sortTripsByPending(data, userId) {
+    return data.trips.filter(data => data.userID === userId && data.status === "pending")
+}
+
+function sortDestinationsByPending(tripsData, destData) {
+    let dest = []
+    tripsData.forEach(trip => {
+        dest.push(destData.destinations.find(dest => dest.id === trip.destinationID))
+    })
+    return dest
+}
+
 export {
     parseUserId,
-    sortDataById
+    sortDataById,
+    sortTripsByPending,
+    sortDestinationsByPending
 }

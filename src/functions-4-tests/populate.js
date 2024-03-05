@@ -36,8 +36,13 @@ function getFinalCost(data, tripsThisYear) {
     return finalCost.toFixed(2)
 }
 
+function replaceDashes(date) {
+    return date.replace(/-/g, '/')
+  }
+
 export {
     getDestinationsByIds,
     getTripsThisYear,
-    getFinalCost
+    getFinalCost,
+    replaceDashes,
 }
