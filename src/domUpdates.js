@@ -1,7 +1,9 @@
+const navButtons = document.getElementById('navButtons')
 const pastTrips = document.getElementById('pastTrips')
 const pendingTrips = document.getElementById('pendingTrips')
 const upcomingTrips = document.getElementById('upcomingTrips')
 const addTrips = document.getElementById('addTrips')
+const costThisYear = document.getElementById('costThisYear')
 const finalCostDiv = document.getElementById('finalCost')
 const destSelect = document.getElementById('destinationSelect')
 const errorAddTrips = document.getElementById('errorAddTrips')
@@ -11,6 +13,7 @@ const addTripInputs = {
     travelers: document.getElementById('numTravelersInput'),
     destinations: document.getElementById('destinationSelect'),
 }
+const confirmTrips = document.getElementById('confirmTrips')
 const confirmTripInfo = {
     startDate: document.getElementById('startDateConfirm'),
     tripDuration: document.getElementById('durationComfirm'),
@@ -19,6 +22,8 @@ const confirmTripInfo = {
     travelAgent: document.getElementById('travelAgentConfirm'),
     finalCostThisTrip: document.getElementById('finalCostThisTrip'),
 }
+const costThisTrip = document.getElementById('costThisTrip')
+const finalCostThisTrip = document.getElementById('finalCostThisTrip')
 
 function displayPastTrips(tripDates, tripLocations) {
     tripDates.forEach((date, i) => {
@@ -94,6 +99,25 @@ function displayErrorMessage() {
     return noErrors
 }
 
+    function displayNewTripConfirm() {
+        addTrips.classList.add('hidden')
+        navButtons.classList.add('hidden')
+        confirmTrips.classList.remove('hidden')
+        costThisTrip.classList.remove('hidden')
+        finalCostThisTrip.classList.remove('hidden')
+        costThisYear.classList.add('hidden')
+        finalCostDiv.classList.add('hidden')
+    }
+
+    function goBackAddTrip() {
+        addTrips.classList.remove('hidden')
+        navButtons.classList.remove('hidden')
+        confirmTrips.classList.add('hidden')
+        costThisTrip.classList.add('hidden')
+        finalCostThisTrip.classList.add('hidden')
+        costThisYear.classList.remove('hidden')
+        finalCostDiv.classList.remove('hidden')
+    }
 
 export {
     pastTrips,
@@ -107,5 +131,7 @@ export {
     hideTripsDiv,
     displayDestinationsInList,
     populateConfirmTripRequest,
-    displayErrorMessage
+    displayErrorMessage,
+    displayNewTripConfirm,
+    goBackAddTrip
 }
