@@ -61,7 +61,6 @@ function getTripData(userId) {
     Promise.all([fetchData('trips'), fetchData('destinations')])
     .then(([trips, destinations]) => {
         // --- past trips 
-
         let chronologicalDates = sortDataById(trips, userId).map(trip => trip.date).sort((a, b) => new Date(b) - new Date(a))
         let tripList = sortDataById(trips, userId).sort((a, b) => a.destinationID - b.destinationID)
         let tripLocations = getDestinationsByIds(destinations, tripList)
