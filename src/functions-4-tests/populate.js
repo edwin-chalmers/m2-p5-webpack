@@ -38,7 +38,7 @@ function getFinalCost(data, tripsThisYear) {
 
 function replaceDashes(date) {
     return date.replace(/-/g, '/')
-  }
+}
 
 export {
     getDestinationsByIds,
