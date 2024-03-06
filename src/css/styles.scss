@@ -225,13 +225,6 @@ body {
   align-items: center !important;
 }
 
-
-
-
-
-
-
-
 .hidden {
   display: none !important;
 }
@@ -246,4 +239,15 @@ body {
 
 .error {
   color: $error-color !important;
+}
+
+.fetch-error {
+  background-color: $error-color;
+  font-weight: 900;
+  width: 100%;
+  padding: 300px;
+  text-align: center;
+  border-radius: 6px;
+  z-index: 10 !important;
+  position: absolute;
 }

@@ -19,7 +19,8 @@ import {
     displayPendingTrips,
     switchToPendingTrips,
     displayDash,
-    displayLoginError
+    displayLoginError,
+    displayFetchError
 } from './domUpdates'
 import {fetchData, postData} from './apiCalls'
 
@@ -81,15 +82,11 @@ function getTripData(userId) {
         displayFinalCost(finalCost)
         displayDestinationsInList(destinations)
         displayPendingTrips(pendingTrips, pendingDestinations)
-        
-        // display pending trips 
-        console.log('newTrip', newTrip)
-        console.log('destinations',destinations.destinations)
-        console.log('tripList', tripList)
-        console.log('trips', trips)
-        console.log('tripLocations', tripLocations)
     })
-    .catch(error => console.error("Error loading data:", error));
+    .catch(error => {
+        displayFetchError(`//woops, server is down//`)
+        console.error("Error in fetching trips and destinations:", error);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -98,16 +95,17 @@ document.addEventListener("DOMContentLoaded", () => {
     addTripInputs.tripDuration.value = ''
     addTripInputs.travelers.value = ''
     fetchData('travelers')
-        .then(response => {
-            travelersList = response
-            console.log(travelersList.travelers.length)
+        .then(data => {
+            travelersList = data;
         })
-        .catch(error => console.error("Error in finding travelers:", error));
+        .catch(error => {
+            displayFetchError(`//woops, server is down//`)
+            console.error("Error in finding travelers:", error);
+        });
 })
 
+
 login.addEventListener("click", () => {
-    console.log(username.value)
-    console.log(password.value)
     if (verifyLogin()) {
         getTripData(parseUserId(username.value))
         displayDash()
@@ -133,14 +131,16 @@ goBackBtn.addEventListener("click", () => {
 })
 
 addTripBtn.addEventListener("click", () => {
-    console.log(' populateNewTrip',newTrip)
     populateNewTrip()
     postData('trips', newTrip) 
         .then(response => {
             switchToPendingTrips();
-            return getTripData(newTrip.userID);
+            getTripData(newTrip.userID);
         })
-        .catch(error => console.error("Error in adding new trip:", error));
+        .catch(error => {
+            displayFetchError(`//woops, server is down//`)
+            console.error("Error in posting trips:", error);
+        });
 })
 
 pastButton.addEventListener("click", () => {

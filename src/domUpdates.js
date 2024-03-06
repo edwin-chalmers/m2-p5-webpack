@@ -28,6 +28,7 @@ const costThisTrip = document.getElementById('costThisTrip')
 const finalCostThisTrip = document.getElementById('finalCostThisTrip')
 const usernameDiv = document.querySelector('#usernameDiv label')
 const passwordDiv = document.querySelector('#passwordDiv label')
+const fetchError = document.getElementById('fetchError')
 
 
 function displayPastTrips(tripDates, tripLocations) {
@@ -164,6 +165,11 @@ function displayLoginError(field) {
     }
 }
 
+function displayFetchError(error) {
+    fetchError.classList.remove('hidden')
+    fetchError.innerText = error
+}
+
 export {
     pastTrips,
     pendingTrips,
@@ -182,5 +188,6 @@ export {
     displayPendingTrips,
     switchToPendingTrips,
     displayDash,
-    displayLoginError
+    displayLoginError,
+    displayFetchError
 }
