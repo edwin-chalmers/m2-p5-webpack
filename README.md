@@ -1,6 +1,6 @@
 # Travel Tracker 
 
-[Try it here!](https://edwin-chalmers.github.io/travel-tracker/) (YOu'll only need to run the BE if you use the site) 
+[Try it here!](https://edwin-chalmers.github.io/travel-tracker/) (You'll only need to run the BE if you use the site) 
 
 ## About
 Travel Tracker is an application designed to streamline the travel planning and tracking process for both individual travelers and travel agencies. The project simulates real-world travel management applications, aiming to simplify how users and agencies manage, track, and plan trips. The project's primary focus is on achieving the following objectives:
